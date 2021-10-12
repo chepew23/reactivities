@@ -43,4 +43,16 @@ export default class UserStore {
             console.log(error);
         }
     }
+
+    register = async (credentials: UserFormValues)  => {
+        try {
+            const user = await agent.Account.register(credentials);
+            store.commonStore.setToken(user.token);
+            runInAction(() => this.user = user);
+            history.push('/activities');
+            store.modalStore.closeModal();
+        } catch (error) {
+            throw error;
+        }
+    }
 }
